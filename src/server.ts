@@ -1,6 +1,10 @@
 import Fastify from "fastify";
+import { FastifyListenOptions } from "fastify";
 import { routes } from "./routes";
 import cors from "@fastify/cors"
+
+const port = process.env.PORT || 3000;
+const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
 
 const app = Fastify({ logger: true})
 
@@ -14,7 +18,7 @@ const start = async () => {
     await app.register(routes)
     
     try{
-        await app.listen({port: 3300})
+        await app.listen({host: host, port: port } as FastifyListenOptions)
 
     }catch(err){
         process.exit(1)

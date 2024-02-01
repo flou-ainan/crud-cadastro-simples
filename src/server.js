@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
 const routes_1 = require("./routes");
 const cors_1 = __importDefault(require("@fastify/cors"));
+const port = process.env.PORT || 3000;
+const host = ("RENDER" in process.env) ? `0.0.0.0` : `localhost`;
 const app = (0, fastify_1.default)({ logger: true });
 app.setErrorHandler((error, request, reply) => {
     reply.code(400).send({ message: error.message });
@@ -23,7 +25,7 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
     yield app.register(cors_1.default);
     yield app.register(routes_1.routes);
     try {
-        yield app.listen({ port: 3300 });
+        yield app.listen({ host: host, port: port });
     }
     catch (err) {
         process.exit(1);
